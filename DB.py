@@ -27,10 +27,8 @@ class DB(object):
         # call the method to really do the connection ...
         self.connect()
 
-
-keyring
-"""connect - to database with parameters specfied
-        :return:
+    def connect(self):
+        """connect - to database with parameters specfied
         """
         try:
             self.conn = pymssql.connect(self.host, self.uid, self.pw, self.dbname)
