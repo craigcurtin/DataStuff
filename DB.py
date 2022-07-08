@@ -3,8 +3,14 @@ import pymssql
 import pandas as pd
 from utils import get_credentials
 
+# ReadTheDocs on the ms-sql python module
 # https://pymssql.readthedocs.io/en/stable/intro.html
 
+# GH repo for the code ...
+# https://github.com/pymssql/pymssql
+
+# probably should leverage these for our unit testing
+# https://github.com/pymssql/pymssql/blob/master/tests/test_config.py
 
 class DB(object):
     """DB() - class handles connecting, reading and writing various database tables"""
@@ -12,11 +18,11 @@ class DB(object):
         """__init__() - provides parameters necessary to connect to database"""
         logging.debug(f"{__name__}:__init__({config_tag}, {config_file})")
         if config_file is None:
-            self.config_file = '.mssql_db.conf'
+            self.config_file = ".mssql_db.conf"
 
         # choose the database to use
         if config_tag is None:
-            self.config_tag = 'dev'
+            self.config_tag = "dev"
 
         self.protocol = 'tcp'
         self.host, self.port, self.dbname, self.uid, self.pw = get_credentials(self.config_tag, self.config_file)
@@ -45,8 +51,9 @@ class DB(object):
 
             return self.conn
         except Exception as ex:
-            logging.exception("Exception: {} cannot connect to {}".format(ex, self.dbname))
-            raise RuntimeError("Exception: {} cannot connect to {}".format(ex, self.dbname)) from ex
+            ex_message = f"Exception: {ex} cannot connect to {self.dbname}"
+            logging.exception(ex_message)
+            raise RuntimeError(ex_message) from ex
 
     def get_cursor(self):
         """get_cursor() - return the current cursor"""
@@ -55,7 +62,7 @@ class DB(object):
             logging.debug("Returning Cursor")
             return self.cursor
         except Exception as ex:
-            ex_message = "Exception: {} cannot get cursor".format(ex)
+            ex_message = f"Exception: {ex} cannot get cursor"
             logging.exception(ex_message)
             raise RuntimeError(ex_message) from ex
 
@@ -68,7 +75,7 @@ class DB(object):
             logging.debug("Executing SQL Query")
             return pd_data
         except Exception as ex:
-            ex_message = "Exception: {} cannot execute sql query".format(ex)
+            ex_message = f"Exception: {ex} cannot execute sql query"
             logging.exception(ex_message)
             raise RuntimeError(ex_message) from ex
 
@@ -86,7 +93,7 @@ class DB(object):
             self.cursor.execute(sql)
             logging.debug("Executing Insert SQL Query")
         except Exception as ex:
-            ex_message = "Exception: {} cannot Insert into the Table".format(ex)
+            ex_message = f"Exception: {ex} cannot Insert into the Table"
             logging.exception(ex_message)
             raise RuntimeError(ex_message) from ex
 
@@ -96,7 +103,7 @@ class DB(object):
             self.cursor.execute(sql)
             logging.debug("Executing Update SQL Query")
         except Exception as ex:
-            ex_message = "Exception: {} cannot Update Table".format(ex)
+            ex_message = f"Exception: {ex} cannot Update Table"
             logging.exception(ex_message)
             raise RuntimeError(ex_message) from ex
 
@@ -106,16 +113,17 @@ class DB(object):
             self.cursor.execute(inssql)
             logging.debug("Executing Insert in upsert mode")
         except Exception as ex:
+            # this is a DB2 exception, i forget what causes this, we worked around thsi
             if ex.args[0] == '23505':
                 try:
                     self.cursor.execute(updsql)
                     logging.debug("Executing update in upsert mode")
                 except Exception as ex:
-                    ex_message = "Exception: {} cannot Update Table in upser mode".format(ex)
+                    ex_message = f"Exception: {ex} cannot Update Table in upsert mode"
                     logging.exception(ex_message)
                     raise RuntimeError(ex_message) from ex
             else:
-                ex_message = "Exception: {} cannot Insert Table ".format(ex)
+                ex_message = f"Exception: {ex} cannot Insert Table"
                 logging.exception(ex_message)
                 raise RuntimeError(ex_message) from ex
 
@@ -125,7 +133,7 @@ class DB(object):
             self.cursor.commit()
             logging.debug("Committing the Records")
         except Exception as ex:
-            ex_message = "Exception: {} cannot Commit Records".format(ex)
+            ex_message = f"Exception: {ex} cannot Commit Records"
             logging.exception(ex_message)
             raise RuntimeError(ex_message) from ex
 
@@ -136,7 +144,7 @@ class DB(object):
             self.conn.close()
             self.conn = None    # fail fast if this is reused!
         except Exception as ex:
-            ex_message = "Exception: {} closing DB connection".format(ex)
+            ex_message = f"Exception: {ex} closing DB connection"
             logging.exception(ex_message)
             raise RuntimeError(ex_message) from ex
 
