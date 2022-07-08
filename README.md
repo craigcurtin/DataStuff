@@ -1,5 +1,5 @@
 # Database Framework project
-Here is the gouge on the markdown tags to improve this document:  [PyCharm Markdown Reference](https://www.jetbrains.com/help/pycharm/markdown.html)
+Here is the gouge on the markdown tags to improve this README:  [PyCharm Markdown Reference](https://www.jetbrains.com/help/pycharm/markdown.html)
 <br>
 <br>
 This is a sample Python module for performing database access. Currently, it is tied to MS-SQL since that appears to be the Database of choice. There are also some implicit expectations that Pandas/DFs and SQLite will be used for either out of database transformation or some local optimizations.
@@ -17,23 +17,30 @@ Take a look at main.py and start running from there
 
 ### Dependencies
 1. This project started with Python 3.9+. It is assumed to be upward compatible with should be used with this, yymv with other versions
-2. **requirements.txt** for all python dependencies
-3. _pytest_ is the _defacto testing framework_.
+2. **requirements.txt** identifies python dependencies
+3. _pytest_ is the testing framework.
 ### Installing
 ```
 $ pip install -r requirements.txt
 ```
-* DB connections are stored in $HOME/.mssql_db.conf
+* DB connections are stored in ~/.mssql_db.conf
+```
+# NOTE: this file is only readable by owner, should get from VAULT ...
+
+$ cat  ~/.mssql_db.conf   
+[dev]
+host        = waveland.database.windows.net
+port        = 8675309
+user        = G3n3ra1Ney1and
+password    = S3Cru1esB1G
+dbname      = sheffieldAvenue
+```
 * Config tags of [ dev | qa | uat | prod ] are assumed to delimit environments
 * How/where to download your program
 * Any modifications needed to be made to files/folders
-
-### Executing program
+### Executing the program
 * How to run the program
 * Step-by-step bullets
-```
-code blocks for commands
-```
 ## Help
 Any advice for common problems or issues.
 ```

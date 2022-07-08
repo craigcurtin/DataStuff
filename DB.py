@@ -134,6 +134,7 @@ class DB(object):
         try:
             logging.debug("Close DB connection {}".format(self.host))
             self.conn.close()
+            self.conn = None    # fail fast if this is reused!
         except Exception as ex:
             ex_message = "Exception: {} closing DB connection".format(ex)
             logging.exception(ex_message)
