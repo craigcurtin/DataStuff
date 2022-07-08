@@ -7,11 +7,14 @@ class ETL(DB):
         ETL - Extract Translate Load class for manipulating database tables
     """
     def __init__(self, config_tag=None, config_file=None):
+        """class constructor"""
         logging.debug(f"{__name__}:__init__({config_tag}, {config_file})")
         # call base class to do any initialization ...
         super().__init__(config_tag, config_file)
 
         self.data = None
+
+
 
     def extract(self, key=None):
         """extract data from storage specified by key"""

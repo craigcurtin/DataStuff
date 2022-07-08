@@ -17,11 +17,14 @@ class DB(object):
     def __init__(self, config_tag=None, config_file=None):
         """__init__() - provides parameters necessary to connect to database"""
         logging.debug(f"{__name__}:__init__({config_tag}, {config_file})")
-        if config_file is None:
+        self.config_tag = config_tag
+        self.config_file = config_file
+
+        if self.config_file is None:
             self.config_file = ".mssql_db.conf"
 
         # choose the database to use
-        if config_tag is None:
+        if self.config_tag is None:
             self.config_tag = "dev"
 
         self.protocol = 'tcp'
@@ -32,6 +35,7 @@ class DB(object):
 
         # call the method to really do the connection ...
         self.connect()
+
 
     def connect(self):
         """connect - to database with parameters specfied

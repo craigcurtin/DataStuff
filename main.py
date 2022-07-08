@@ -30,5 +30,12 @@ if __name__ == '__main__':
     etl.extract("foo")
     etl.transform("foo")
     etl.load("foo")
+    #etl = None
+
+    etl2 = ETL("dev")
+    etl2.extract("bar")
+    etl2.transform("bar")
+    etl2.load("bar")
+
 
     logging.info('Normal Termination')
