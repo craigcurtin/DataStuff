@@ -157,7 +157,9 @@ class DB(object):
 
 
     def read_csv(self, input_file):
-        """wrapper around pandas read_csv"""
+        """wrapper around pandas read_csv
+        1. make sure file is readable, throw exception if not
+        """
 
         if not os.access(input_file, os.R_OK):
             ex_message = f"PermissionError: [Errno 13] Permission denied: '{input_file}'"
@@ -176,7 +178,7 @@ class DB(object):
         num_of_bytes = stat_result.st_size
         file_mask = oct(os.stat(input_file).st_mode)[-3:]
 
-        logging.debug(f"{input_file} is {stat_result.st_size} bytes and file mask is {file_mask}")
+        logging.debug(f"Input File: {input_file} is {stat_result.st_size} bytes and file mask is {file_mask}")
         if num_of_bytes > 50000:
             chunk = 10000
         else:

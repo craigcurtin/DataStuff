@@ -38,9 +38,15 @@ if __name__ == '__main__':
     etl.load("bar")
 
     massive_file = ETL("dev")
-    for file_name in [ "data/other-listed.csv",
-                       "data/1500000_CC_Records.csv",
-                       "data/1500000_CC_Records.zip" ]:
-        massive_file.read_csv(file_name)
+    for file_name in [ "xyxxy.dummy",
+                           "data/other-listed.csv",
+                           "data/1500000_CC_Records.csv",
+                           "data/1500000_CC_Records.zip" ]:
+        try:
+            massive_file.read_csv(file_name)
+        except Exception as ex:
+            ex_message = f"Exception: {ex} looping reading Pandas files ..."
+            logging.exception(ex_message)
+            continue
 
     logging.info('Normal Termination')
