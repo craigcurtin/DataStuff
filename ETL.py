@@ -14,8 +14,6 @@ class ETL(DB):
 
         self.data = None
 
-
-
     def extract(self, key=None):
         """extract data from storage specified by key"""
         if key is None:

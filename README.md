@@ -51,6 +51,11 @@ yeah, you know how to get me ...
 
 ## Version History
 
+## Data resources (for sample data)
+* [NYSE tick data](https://datahub.io/awesome/stock-market-data#nyse-and-other-listings)
+* [Economic data](https://www.aeaweb.org/resources/data)
+* [Registry of Open Data on AWS](https://registry.opendata.aws/)
+* [UCI Machine Learning Repository](https://archive.ics.uci.edu/ml/index.php)
 ## License
 This project is licensed under the [NAME HERE] License - see the LICENSE.md file for details
 

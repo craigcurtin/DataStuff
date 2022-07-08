@@ -1,7 +1,10 @@
+import os
 import logging
 import pymssql
 import pandas as pd
 from utils import get_credentials
+import datetime
+import zipfile
 
 # ReadTheDocs on the ms-sql python module
 # https://pymssql.readthedocs.io/en/stable/intro.html
@@ -152,3 +155,39 @@ class DB(object):
             logging.exception(ex_message)
             raise RuntimeError(ex_message) from ex
 
+
+    def read_csv(self, input_file):
+        """wrapper around pandas read_csv"""
+
+        if not os.access(input_file, os.R_OK):
+            ex_message = f"PermissionError: [Errno 13] Permission denied: '{input_file}'"
+            logging.exception(ex_message)
+            raise RuntimeError(ex_message)
+
+        if zipfile.is_zipfile(input_file):
+            with zipfile.ZipFile(input_file, mode="r") as archive:
+                for filename in archive.namelist():
+                    print(f"unzipped file name is '{filename}'")
+            # just print the file name for time being ...
+            print(f"skipping ..., not currently processing zip files ... ")
+            return
+
+        stat_result = os.stat(input_file)
+        num_of_bytes = stat_result.st_size
+        file_mask = oct(os.stat(input_file).st_mode)[-3:]
+
+        logging.debug(f"{input_file} is {stat_result.st_size} bytes and file mask is {file_mask}")
+        if num_of_bytes > 50000:
+            chunk = 10000
+        else:
+            chunk = 1000
+        num_records = 0
+        chunks = 0
+        start_time = datetime.datetime.now()
+        #for df in pd.read_csv(input_file, sep=",", engine="python", encoding="utf-8", chunksize=chunk, escapechar="\\"):
+        for df in pd.read_csv(input_file, sep=",", engine="python",  encoding='cp1252', chunksize=chunk, escapechar="\\"):
+            chunks +=1
+            num_records += len(df)
+            print(df)
+        end_time = datetime.datetime.now()
+        logging.debug(f"Processed:  records={num_records:,} in chunks={chunks}, chunk_size={chunk}, elapsed time={end_time - start_time}")

@@ -30,12 +30,17 @@ if __name__ == '__main__':
     etl.extract("foo")
     etl.transform("foo")
     etl.load("foo")
-    #etl = None
+    etl = None
 
-    etl2 = ETL("dev")
-    etl2.extract("bar")
-    etl2.transform("bar")
-    etl2.load("bar")
+    etl = ETL("dev")
+    etl.extract("bar")
+    etl.transform("bar")
+    etl.load("bar")
 
+    massive_file = ETL("dev")
+    for file_name in [ "data/other-listed.csv",
+                       "data/1500000_CC_Records.csv",
+                       "data/1500000_CC_Records.zip" ]:
+        massive_file.read_csv(file_name)
 
     logging.info('Normal Termination')
