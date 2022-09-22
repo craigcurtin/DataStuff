@@ -31,3 +31,26 @@ $ vault kv patch secret/customer/acme contact_email="admin@acme.com"
 $ vault kv get secret/customer/acme
 
 ```
+
+
+now, adding custom metadata ...
+
+```commandline
+# lets add some metadata to the customer
+$ vault kv metadata put --custom-metadata=Membership="Platinum" secret/customer/bjss
+
+
+# verify by reading back:
+$ vault kv get secret/customer/bjss
+
+# now upgrade the metadata ...
+$ vault kv metadata put --custom-metadata=Membership="Gold" secret/customer/bjss
+
+# verify by reading back:
+$ vault kv get secret/customer/bjss
+
+# now add more metadata ...
+$ vault kv metadata put --custom-metadata=CreditLevel="AAA" secret/customer/bjss
+
+# ah, only one single field to Metadata .... ugh, now we know
+```
