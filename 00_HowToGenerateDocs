@@ -1,0 +1,22 @@
+## how to create a single PDF file from a collection of markdowns
+
+## note .... the <<-"THIS_IS_EOF" is needed to NOT expand TMP_INPUT!
+
+cat > makePDF.sh <<-"THIS_IS_EOF"
+#!/usr/bin/env bash
+shopt -s extglob
+TMP_INPUT=/tmp/tmp_$$.md
+cat [0-9][0-9]_*.md >  ${TMP_INPUT}
+PANDOC_OPTS="-s -V geometry:margin=1in --table-of-contents  --title-prefix=Vault_Tutorial"
+pandoc  ${PANDOC_OPTS} -o doc.pdf  ${TMP_INPUT}
+pandoc  ${PANDOC_OPTS} -o doc.html  ${TMP_INPUT}
+
+# if [ 2 ] ; then rm  ; fi
+exit 0
+THIS_IS_EOF
+
+# now make it executable
+chmod a+x ./makePDF.sh
+
+# now run the above script ...
+./makePDF.sh

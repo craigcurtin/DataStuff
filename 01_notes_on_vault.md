@@ -1,3 +1,6 @@
+
+ Let's start digging into [the best text-based syntax][mkdnlink] available.
+ 
 ### note: using mermaid extentions for markdown ...
 
 ### notes on using the free Vault for some desktop development
@@ -10,7 +13,7 @@
 
 this was an OK, YT video for getting a qucik overview, mostly the guy wants to sell his advanced course but I'm not biting - HashiCorp Vault 101 - Certified Vault Associate TeKanAid
 
-Install Vault for your operating system, for MacOs:
+Install Vault for your operating system, for macOs:
 ```
 $ brew tap hashicorp/tap
 $ brew install hashicorp/tap/vault

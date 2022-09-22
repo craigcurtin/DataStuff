@@ -54,3 +54,41 @@ $ vault kv metadata put --custom-metadata=CreditLevel="AAA" secret/customer/bjss
 
 # ah, only one single field to Metadata .... ugh, now we know
 ```
+
+
+storing [ Database secrets ] ( https://www.vaultproject.io/docs/secrets/databases )
+
+```commandline
+# you must configure DB secrets engine
+$ vault secrets enable database
+
+
+$ vault write database/config/position_db \
+    plugin_name="..." \
+    connection_url="..." \
+    allowed_roles="..." \
+    username="..." \
+    password="..." \
+
+# Vault will use the user specified here to create/update/revoke database credentials. That user must have the appropriate permissions to perform actions upon other database users (create, update credentials, delete, etc.).
+# This secrets engine can configure multiple database connections. For details on the specific configuration options, please see the database-specific documentation.
+
+# 
+$ vault write -force database/rotate-root/position_db
+
+
+$ vault write database/roles/risk_engine_app \
+    db_name=position_db \
+    creation_statements="..." \
+    default_ttl="1h" \
+    max_ttl="24h"
+
+```
+
+Usage:
+
+```commandline
+
+vault read database/creds/risk_engine_app
+
+```
