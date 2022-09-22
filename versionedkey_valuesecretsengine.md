@@ -21,7 +21,7 @@ $ vault kv get secret/customer/acme
 $ vault kv get secret/customer/bjss
 ```
 
-an example of an update ... er, patch in Vault nomenclature
+an example of an update ... patch in Vault nomenclature
 
 ```
 # below is a patch to update email only ...
