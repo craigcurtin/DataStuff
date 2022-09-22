@@ -6,6 +6,8 @@ from utils import get_credentials
 import datetime
 import zipfile
 
+from retrieve_vault_creds import retrieve_vault_creds
+
 # ReadTheDocs on the ms-sql python module
 # https://pymssql.readthedocs.io/en/stable/intro.html
 
@@ -41,10 +43,16 @@ class DB(object):
 
 
     def connect(self):
-        """connect - to database with parameters specfied
+        """connect - to database with parameters specified
         """
+        get_from_vault = False
         try:
-            self.conn = pymssql.connect(self.host, self.uid, self.pw, self.dbname)
+            if get_from_vault:
+                tag = 'hni'
+                host, uid, pw, dbname = retrieve_vault_creds( tag )
+            else:
+                host, uid, pw, dbname = self.host, self.uid, self.pw, self.dbname
+            self.conn = pymssql.connect(host, uid, pw, dbname)
             log_conn = \
                 "DATABASE={database};HOSTNAME={hostname};PORT={port};PROTOCOL={protocol};UID={uid};PWD={pw}".format(
                 database=self.dbname,
