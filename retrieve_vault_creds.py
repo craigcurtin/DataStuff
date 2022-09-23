@@ -6,6 +6,7 @@ import os
 # https://hvac.readthedocs.io/en/stable/overview.html#getting-started
 
 def retrieve_vault_creds(tag=None):
+    """retrieve_vault_creds(tag) goes and gets credentials"""
     vault_token = os.environ.get('VAULT_TOKEN', 'dev_root')
     vault_url = os.environ.get('VAULT_URL', 'http://127.0.0.1:8200')
     vault_path = os.environ.get('VAULT_PATH', 'database/config/mssql-database')
@@ -35,6 +36,7 @@ def retrieve_vault_creds(tag=None):
         uid = secrets_list['data']['data']['username']
         pw = secrets_list['data']['data']['password']
         dbname = secrets_list['data']['data']['database']
+        logging.info(f"assigning credentials HVAC Vault: json data")
     except Exception as ex:
         ex_message = f"Exception: {ex} parsing JSON data returend from HVAC Vault"
         logging.exception(ex_message)
