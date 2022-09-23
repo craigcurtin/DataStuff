@@ -49,8 +49,8 @@ class DB(object):
         get_from_vault = True
         try:
             if get_from_vault:
-                tag = 'hni'
-                host, uid, pw, dbname = retrieve_vault_creds(tag)
+                db_tag = 'hni'
+                host, uid, pw, dbname = retrieve_vault_creds(db_tag)
             else:
                 host, uid, pw, dbname = self.host, self.uid, self.pw, self.dbname
             self.conn = pymssql.connect(host, uid, pw, dbname)
