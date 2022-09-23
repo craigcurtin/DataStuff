@@ -8,6 +8,7 @@ import zipfile
 
 from retrieve_vault_creds import retrieve_vault_creds
 
+
 # ReadTheDocs on the ms-sql python module
 # https://pymssql.readthedocs.io/en/stable/intro.html
 
@@ -19,6 +20,7 @@ from retrieve_vault_creds import retrieve_vault_creds
 
 class DB(object):
     """DB() - class handles connecting, reading and writing various database tables"""
+
     def __init__(self, config_tag=None, config_file=None):
         """__init__() - provides parameters necessary to connect to database"""
         logging.debug(f"{__name__}:__init__({config_tag}, {config_file})")
@@ -41,27 +43,26 @@ class DB(object):
         # call the method to really do the connection ...
         self.connect()
 
-
     def connect(self):
         """connect - to database with parameters specified
         """
-        get_from_vault = False
+        get_from_vault = True
         try:
             if get_from_vault:
                 tag = 'hni'
-                host, uid, pw, dbname = retrieve_vault_creds( tag )
+                host, uid, pw, dbname = retrieve_vault_creds(tag)
             else:
                 host, uid, pw, dbname = self.host, self.uid, self.pw, self.dbname
             self.conn = pymssql.connect(host, uid, pw, dbname)
             log_conn = \
                 "DATABASE={database};HOSTNAME={hostname};PORT={port};PROTOCOL={protocol};UID={uid};PWD={pw}".format(
-                database=self.dbname,
-                hostname=self.host,
-                port="8675309",
-                protocol=self.protocol,
-                uid="some_luser",
-                pw="ain't_gonna_tell",
-            )
+                    database=self.dbname,
+                    hostname=self.host,
+                    port="8675309",
+                    protocol=self.protocol,
+                    uid="some_luser",
+                    pw="ain't_gonna_tell",
+                )
             logging.info(log_conn)
 
             return self.conn
@@ -157,12 +158,11 @@ class DB(object):
         try:
             logging.debug("Close DB connection {}".format(self.host))
             self.conn.close()
-            self.conn = None    # fail fast if this is reused!
+            self.conn = None  # fail fast if this is reused!
         except Exception as ex:
             ex_message = f"Exception: {ex} closing DB connection"
             logging.exception(ex_message)
             raise RuntimeError(ex_message) from ex
-
 
     def read_csv(self, input_file):
         """wrapper around pandas read_csv
@@ -194,10 +194,12 @@ class DB(object):
         num_records = 0
         chunks = 0
         start_time = datetime.datetime.now()
-        #for df in pd.read_csv(input_file, sep=",", engine="python", encoding="utf-8", chunksize=chunk, escapechar="\\"):
-        for df in pd.read_csv(input_file, sep=",", engine="python",  encoding='cp1252', chunksize=chunk, escapechar="\\"):
-            chunks +=1
+        # for df in pd.read_csv(input_file, sep=",", engine="python", encoding="utf-8", chunksize=chunk, escapechar="\\"):
+        for df in pd.read_csv(input_file, sep=",", engine="python", encoding='cp1252', chunksize=chunk,
+                              escapechar="\\"):
+            chunks += 1
             num_records += len(df)
             print(df)
         end_time = datetime.datetime.now()
-        logging.debug(f"Processed:  records={num_records:,} in chunks={chunks}, chunk_size={chunk}, elapsed time={end_time - start_time}")
+        logging.debug(
+            f"Processed:  records={num_records:,} in chunks={chunks}, chunk_size={chunk}, elapsed time={end_time - start_time}")

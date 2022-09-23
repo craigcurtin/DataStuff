@@ -34,9 +34,11 @@ def get_credentials(section_name, db_config_file_name=None):
 
     return host, port, dbname, uid, pw
 
+
 # logging formatter, specify UTC as TZ to hardcode
 def time_tz(*args):
     return datetime.now(tz).timetuple()
+
 
 # kkk/TODO - CSC working this function to be JSON aware/enabled ...
 

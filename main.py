@@ -23,8 +23,8 @@ if __name__ == '__main__':
     results = qe.run(['foo'])
     logging.debug(results_returned)
 
-    l = logging.getLogger()
-    l.setLevel(logging.DEBUG)
+    logger = logging.getLogger()
+    logger.setLevel(logging.DEBUG)
 
     etl = ETL()
     etl.extract("foo")
@@ -38,10 +38,10 @@ if __name__ == '__main__':
     etl.load("bar")
 
     massive_file = ETL("dev")
-    for file_name in [ "xyxxy.dummy",
-                           "data/other-listed.csv",
-                           "data/1500000_CC_Records.csv",
-                           "data/1500000_CC_Records.zip" ]:
+    for file_name in ["xyxxy.dummy",
+                      "data/other-listed.csv",
+                      "data/1500000_CC_Records.csv",
+                      "data/1500000_CC_Records.zip"]:
         try:
             massive_file.read_csv(file_name)
         except Exception as ex:
